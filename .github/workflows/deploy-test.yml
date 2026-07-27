@@ -25,14 +25,10 @@ jobs:
             echo "Event=${{ github.event_name }}"
             echo "Actor=${{ github.actor }}"
 
-      - name: Debug Role ARN
-        run: |
-          echo "AWS_ROLE_ARN=${{ secrets.AWS_ROLE_ARN }}"
-      
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4.1.0
         with:
-          role-to-assume: arn:aws:iam::325574368753:role/GitHubActionsRole
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
 
       - name: Verify Identity
