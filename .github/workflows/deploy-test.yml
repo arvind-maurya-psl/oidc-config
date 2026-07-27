@@ -1,0 +1,36 @@
+name: Deploy test to AWS
+
+on:
+  push:
+    branches: [ main, develop, github-workflow ]
+
+jobs:
+  deploy:
+    name: Deploy Application
+    runs-on: ubuntu-latest
+    
+    permissions:
+      id-token: write
+      contents: read
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Debug Context
+        run: |
+            echo "Repository=${{ github.repository }}"
+            echo "Ref=${{ github.ref }}"
+            echo "Branch=${{ github.ref_name }}"
+            echo "Event=${{ github.event_name }}"
+            echo "Actor=${{ github.actor }}"
+
+      - name: Debug Role ARN
+        run: |
+          echo "AWS_ROLE_ARN=${{ secrets.AWS_ROLE_ARN }}"
+      
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::325574368753:role/oidc-config
+          aws-region: us-east-1
