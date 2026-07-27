@@ -30,7 +30,7 @@ jobs:
           echo "AWS_ROLE_ARN=${{ secrets.AWS_ROLE_ARN }}"
       
       - name: Configure AWS credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v4.1.0
         with:
           role-to-assume: arn:aws:iam::325574368753:role/GitHubActionsRole
           aws-region: us-east-1
