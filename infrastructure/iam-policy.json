@@ -1,0 +1,64 @@
+"""
+IAM Policy for Agentic AI Application on AWS.
+
+This policy should be attached to the IAM role used by the application
+for accessing AWS Bedrock and related services.
+"""
+
+# Minimal privileged policy for AWS Bedrock
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "BedrockInvoke",
+            "Effect": "Allow",
+            "Action": [
+                "bedrock:InvokeModel",
+                "bedrock:InvokeModelWithResponseStream"
+            ],
+            "Resource": "arn:aws:bedrock:*::foundation-model/*"
+        },
+        {
+            "Sid": "SecretsManagerAccess",
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret"
+            ],
+            "Resource": "arn:aws:secretsmanager:*:*:secret:agentic-ai/*"
+        },
+        {
+            "Sid": "CloudWatchLogs",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:*:*:log-group:/aws/agentic-ai/*"
+        },
+        {
+            "Sid": "S3Access",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::agentic-ai-bucket",
+                "arn:aws:s3:::agentic-ai-bucket/*"
+            ]
+        },
+        {
+            "Sid": "KMSDecrypt",
+            "Effect": "Allow",
+            "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:GenerateDataKey"
+            ],
+            "Resource": "arn:aws:kms:*:*:key/arn:aws:kms:*:*:key/*"
+        }
+    ]
+}

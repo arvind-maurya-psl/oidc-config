@@ -1,0 +1,547 @@
+Metadata-Version: 2.4
+Name: agentic-ai
+Version: 1.0.0
+Summary: Production-grade Agentic AI application using AWS Bedrock and Microsoft Semantic Kernel
+Author-email: Enterprise AI Team <ai-team@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/enterprise-ai/agentic-ai
+Project-URL: Documentation, https://github.com/enterprise-ai/agentic-ai/wiki
+Project-URL: Repository, https://github.com/enterprise-ai/agentic-ai.git
+Project-URL: Bug Tracker, https://github.com/enterprise-ai/agentic-ai/issues
+Keywords: ai,agents,bedrock,semantic-kernel,multi-agent,orchestration,aws
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: pydantic>=2.5.0
+Requires-Dist: pydantic-settings>=2.2.1
+Requires-Dist: boto3>=1.34.0
+Requires-Dist: botocore>=1.34.0
+Requires-Dist: semantic-kernel>=1.0.0
+Requires-Dist: python-json-logger>=2.0.7
+Requires-Dist: typing-extensions>=4.9.0
+Requires-Dist: requests>=2.31.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4.3; extra == "dev"
+Requires-Dist: pytest-cov>=4.1.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.1; extra == "dev"
+Requires-Dist: pytest-mock>=3.12.0; extra == "dev"
+Requires-Dist: ruff>=0.1.8; extra == "dev"
+Requires-Dist: black>=23.12.0; extra == "dev"
+Requires-Dist: isort>=5.13.2; extra == "dev"
+Requires-Dist: flake8>=6.1.0; extra == "dev"
+Requires-Dist: mypy>=1.7.1; extra == "dev"
+Requires-Dist: bandit>=1.7.5; extra == "dev"
+Requires-Dist: safety>=2.3.5; extra == "dev"
+Provides-Extra: api
+Requires-Dist: fastapi>=0.109.0; extra == "api"
+Requires-Dist: uvicorn>=0.27.0; extra == "api"
+Provides-Extra: cache
+Requires-Dist: redis>=5.0.1; extra == "cache"
+Requires-Dist: hiredis>=2.2.3; extra == "cache"
+Provides-Extra: database
+Requires-Dist: sqlalchemy>=2.0.23; extra == "database"
+Requires-Dist: psycopg2-binary>=2.9.9; extra == "database"
+Provides-Extra: monitoring
+Requires-Dist: opentelemetry-api>=1.22.0; extra == "monitoring"
+Requires-Dist: opentelemetry-sdk>=1.22.0; extra == "monitoring"
+Dynamic: license-file
+
+# Agentic AI Platform
+
+Production-grade Agentic AI application using AWS Bedrock and Microsoft Semantic Kernel with comprehensive GitHub Actions CI/CD pipeline.
+
+## Features
+
+- **Multi-Agent Architecture**: Specialized agents for analytics, customer service, and content generation
+- **AWS Bedrock Integration**: Support for Claude, Nova, and Titan models
+- **Semantic Kernel Framework**: Orchestration library for AI operations
+- **Memory Management**: In-memory and Redis-backed conversation memory
+- **Plugin Architecture**: Extensible plugins for calculators, web search, and data analysis
+- **Comprehensive Testing**: Unit, integration, and end-to-end tests with mocks
+- **CI/CD Pipeline**: Complete GitHub Actions workflows for PR validation, building, testing, and deployment
+- **Docker Support**: Multi-stage Docker builds optimized for production
+- **Security**: OIDC integration with AWS, least-privilege IAM policies
+- **Observability**: Structured logging, health checks, and monitoring
+
+## Quick Start
+
+### Prerequisites
+
+- Python 3.11+ (3.12 recommended)
+- AWS Account with Bedrock access
+- GitHub repository for CI/CD
+- Docker and Docker Compose (optional)
+
+### Local Development Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/enterprise-ai/agentic-ai.git
+   cd agentic-ai
+   ```
+
+2. **Create virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   pip install -e ".[dev]"  # Install with development dependencies
+   ```
+
+4. **Configure environment**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your AWS credentials and configuration
+   ```
+
+5. **Run tests**
+   ```bash
+   pytest tests/ -v --cov=src/agentic_ai
+   ```
+
+6. **Run the application**
+   ```bash
+   python -m agentic_ai.app
+   ```
+
+## Project Structure
+
+```
+.
+├── src/agentic_ai/              # Main application source code
+│   ├── agents/                  # Agent implementations
+│   │   ├── base_agent.py       # Base agent class
+│   │   ├── specialized_agents.py # Analytics, Customer Service, Content agents
+│   │   ├── coordinator.py      # Multi-agent orchestrator
+│   │   └── memory_manager.py   # Conversation memory management
+│   ├── plugins/                 # AI function plugins
+│   │   ├── calculator.py       # Math operations
+│   │   ├── web_search.py       # Search functionality
+│   │   └── data_analysis.py    # Data analysis tools
+│   ├── services/                # External service integrations
+│   │   └── bedrock_service.py  # AWS Bedrock client
+│   ├── utils/                   # Utility functions
+│   │   └── logging_util.py     # Logging and error handling
+│   ├── config.py               # Configuration management
+│   ├── kernel_factory.py       # Semantic Kernel setup
+│   └── app.py                  # Main application
+├── tests/                       # Test suite
+│   ├── unit/                   # Unit tests
+│   ├── integration/            # Integration tests
+│   └── conftest.py            # Pytest fixtures and mocks
+├── infrastructure/              # Infrastructure as Code and setup
+│   ├── iam-policy.json        # AWS IAM policy
+│   ├── github-oidc-trust-policy.json
+│   └── setup-aws.sh           # AWS setup script
+├── .github/workflows/          # GitHub Actions workflows
+│   ├── pr-validation.yml      # PR checks
+│   ├── build-docker.yml       # Docker build
+│   ├── deploy.yml             # Deployment
+│   └── release.yml            # Release management
+├── .env.example               # Environment template
+├── Dockerfile                 # Docker image definition
+├── docker-compose.yml         # Docker Compose setup
+├── requirements.txt           # Python dependencies
+├── pyproject.toml            # Project metadata and tool config
+└── README.md                 # This file
+```
+
+## Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    User Application                         │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────────┐
+│         AgenticAIApplication (Orchestrator)                │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │  AgentCoordinator (Task Routing & Delegation)         │ │
+│  └──┬──────────────────┬──────────────┬──────────────────┘ │
+│     │                  │              │                    │
+│  ┌──▼──┐  ┌──────────┐  ┌──────────┐  ┌──────────────────┐ │
+│  │Meta-│  │Analytics │  │Customer │  │Content Generation│ │
+│  │Agent│  │Agent     │  │Service  │  │Agent             │ │
+│  │     │  │          │  │Agent    │  │                  │ │
+│  └──┬──┘  └─────┬────┘  └────┬────┘  └────────┬─────────┘ │
+│     │           │            │               │            │
+│     └───────────┴────────────┴───────────────┘            │
+│                        │                                   │
+│         ┌──────────────▼──────────────┐                    │
+│         │  Plugin System              │                    │
+│         ├─ Calculator Plugin          │                    │
+│         ├─ Web Search Plugin          │                    │
+│         └─ Data Analysis Plugin       │                    │
+│                        │                                   │
+│         ┌──────────────▼──────────────┐                    │
+│         │  Memory Manager              │                    │
+│         │  - Conversation History      │                    │
+│         │  - Context Retention         │                    │
+│         └──────────────────────────────┘                    │
+│              All Agents Share Memory                       │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────────┐
+│         Semantic Kernel (Orchestration)                    │
+│  - Function Registration & Invocation                      │
+│  - Native Plugin Integration                              │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────────┐
+│         Bedrock Service (LLM Integration)                 │
+│  - Model Invocation (Claude, Nova, Titan)                │
+│  - Streaming Support                                      │
+│  - Error Handling & Retries                             │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────────┐
+│    AWS Bedrock API (Claude 3.5, Nova, Titan Models)       │
+└───────────────────────────────────────────────────────────┘
+```
+
+## Configuration
+
+### Environment Variables
+
+Key configuration options:
+
+```env
+# Environment
+ENVIRONMENT=production|staging|development
+DEBUG=true|false
+LOG_LEVEL=DEBUG|INFO|WARNING|ERROR
+
+# AWS
+AWS_REGION=us-east-1
+BEDROCK_MODEL_ID=anthropic.claude-3-5-sonnet-20241022-v2:0
+
+# Agent
+AGENT_MAX_ITERATIONS=10
+AGENT_TEMPERATURE=0.7
+AGENT_ENABLE_MEMORY=true
+AGENT_MEMORY_TYPE=in_memory|redis
+```
+
+See `.env.example` for all configuration options.
+
+## Agent Types
+
+### Analytics Agent
+Specialized for data analysis, business intelligence, and reporting.
+- Skills: Data analysis, pattern recognition, trend identification
+- Temperature: 0.5 (Lower for accuracy)
+
+### Customer Service Agent
+Handles customer support, inquiries, and issue resolution.
+- Skills: Issue categorization, problem-solving, customer communication
+- Temperature: 0.7 (Balanced)
+
+### Content Generation Agent
+Creates high-quality content including articles, emails, and reports.
+- Skills: Writing, creativity, content optimization
+- Temperature: 0.8 (Higher for creativity)
+
+## Usage Examples
+
+### Single Task Execution
+```python
+from agentic_ai.app import AgenticAIApplication
+
+app = AgenticAIApplication()
+
+# Execute with specific agent
+result = app.execute_task(
+    description="Analyze sales data",
+    objective="Identify trends",
+    agent_name="analytics"
+)
+```
+
+### Multi-Agent Workflow
+```python
+result = app.execute_workflow(
+    objective="Generate market analysis report",
+    tasks_data=[
+        {
+            "description": "Analyze competitor pricing",
+            "objective": "Identify pricing opportunities"
+        },
+        {
+            "description": "Write market strategy",
+            "objective": "Create actionable recommendations"
+        }
+    ]
+)
+```
+
+### Agent Collaboration
+```python
+result = app.collaborate_agents(
+    primary_agent="content_generation",
+    secondary_agents=["analytics"],
+    description="Create data-driven market report",
+    objective="Combine analysis and writing"
+)
+```
+
+## Testing
+
+### Run All Tests
+```bash
+pytest tests/ -v --cov=src/agentic_ai
+```
+
+### Run Specific Test File
+```bash
+pytest tests/unit/test_agents.py -v
+```
+
+### Run with Coverage Report
+```bash
+pytest tests/ --cov=src/agentic_ai --cov-report=html
+open htmlcov/index.html
+```
+
+### Run Integration Tests
+```bash
+pytest tests/integration/ -v
+```
+
+## CI/CD Pipeline
+
+### GitHub Actions Workflows
+
+1. **PR Validation** (pr-validation.yml)
+   - Linting (Ruff, Black, isort)
+   - Security scanning (Bandit, Safety)
+   - Unit tests with coverage
+   - CodeQL analysis
+
+2. **Docker Build** (build-docker.yml)
+   - Build multi-stage Docker image
+   - Push to container registry
+
+3. **Deployment** (deploy.yml)
+   - AWS OIDC authentication
+   - Deploy to staging/production
+   - Health checks
+   - Environment-specific configuration
+
+4. **Release** (release.yml)
+   - Create GitHub release
+   - Build distribution packages
+   - Publish to PyPI
+
+### Local GitHub Actions Testing
+
+```bash
+# Install act to run workflows locally
+brew install act  # macOS
+choco install act  # Windows
+
+# Run a workflow locally
+act push -j lint-and-format
+```
+
+## Deployment
+
+### Docker Deployment
+
+1. **Build image**
+   ```bash
+   docker build -t agentic-ai:latest .
+   ```
+
+2. **Run container**
+   ```bash
+   docker run -e ENVIRONMENT=production \
+     -e AWS_REGION=us-east-1 \
+     -e BEDROCK_MODEL_ID=anthropic.claude-3-5-sonnet-20241022-v2:0 \
+     agentic-ai:latest
+   ```
+
+3. **Using Docker Compose**
+   ```bash
+   docker-compose up -d
+   ```
+
+### AWS Lambda Deployment
+
+1. **Package application**
+   ```bash
+   zip -r lambda-deployment.zip src/ requirements.txt
+   ```
+
+2. **Create Lambda function**
+   ```bash
+   aws lambda create-function \
+     --function-name agentic-ai \
+     --runtime python3.12 \
+     --role arn:aws:iam::ACCOUNT_ID:role/agentic-ai-role \
+     --handler app.lambda_handler \
+     --zip-file fileb://lambda-deployment.zip
+   ```
+
+### AWS Setup
+
+1. **Configure AWS infrastructure**
+   ```bash
+   chmod +x infrastructure/setup-aws.sh
+   bash infrastructure/setup-aws.sh
+   ```
+
+2. **Add GitHub Secrets**
+   - `AWS_ROLE_ARN`: IAM role ARN
+   - `AWS_REGION`: AWS region
+   - `DEPLOYMENT_BUCKET`: S3 bucket for deployments
+   - `BEDROCK_MODEL_ID`: Model ID for Bedrock
+
+## Security
+
+### Authentication & Authorization
+- **OIDC Integration**: GitHub Actions uses OpenID Connect for AWS authentication (no long-lived credentials)
+- **IAM Policies**: Least-privilege principle with minimal required permissions
+- **Secret Management**: AWS Secrets Manager for credentials and API keys
+
+### Code Security
+- **Bandit**: Security linting to identify common security issues
+- **Safety**: Dependency vulnerability scanning
+- **CodeQL**: Advanced code analysis for security vulnerabilities
+
+### Application Security
+- **Input Validation**: All inputs validated and sanitized
+- **Error Handling**: Secure error messages without sensitive data exposure
+- **Logging**: Structured logging without sensitive information
+- **HTTPS/TLS**: Encrypted data in transit
+
+## Troubleshooting
+
+### Common Issues
+
+**Issue**: AWS credentials not found
+```
+Solution: Set AWS_REGION and ensure AWS_ROLE_ARN is correct in environment
+```
+
+**Issue**: Bedrock model not found
+```
+Solution: Verify BEDROCK_MODEL_ID and ensure Bedrock access is enabled in your account
+```
+
+**Issue**: Memory issues with large conversation histories
+```
+Solution: Use Redis memory backend instead of in_memory, or increase retention_days configuration
+```
+
+### Debug Logging
+
+Enable debug logging:
+```bash
+export LOG_LEVEL=DEBUG
+export DEBUG=true
+python -m agentic_ai.app
+```
+
+### Health Checks
+
+```bash
+# Docker health check
+docker ps --filter "name=agentic-ai-app"
+
+# Application health check
+curl http://localhost:8000/health
+```
+
+## Contributing
+
+1. Create a feature branch
+2. Make changes and run tests
+3. Ensure code quality checks pass
+4. Create a pull request
+5. Wait for CI/CD checks to pass
+
+## Monitoring and Observability
+
+### Logging
+
+- **Application Logs**: `/var/log/app/agentic_ai.log` in container
+- **Container Logs**: Docker logs
+- **CloudWatch Logs**: AWS CloudWatch integration (when deployed)
+
+### Metrics
+
+- Agent execution count and duration
+- Model invocation success/failure rates
+- Memory usage and retention statistics
+- Error rates and types
+
+## Performance Optimization
+
+### Tips
+
+- Use lower temperature for analytical tasks (0.3-0.5)
+- Use higher temperature for creative tasks (0.7-0.9)
+- Enable streaming for long responses
+- Use conversation context limit to prevent memory overflow
+- Consider Redis memory backend for production workloads
+
+## API Server (Optional)
+
+To run as an API server:
+
+```bash
+pip install fastapi uvicorn
+python -c "
+from fastapi import FastAPI
+from agentic_ai.app import AgenticAIApplication
+from contextlib import asynccontextmanager
+
+app_instance = AgenticAIApplication()
+
+@asynccontextmanager
+async def lifespan(app):
+    yield
+
+app = FastAPI(lifespan=lifespan)
+
+@app.post('/execute')
+async def execute_task(description: str, objective: str):
+    return app_instance.execute_task(description, objective)
+
+# Run with: uvicorn app:app --host 0.0.0.0 --port 8000
+"
+```
+
+## License
+
+MIT License - See LICENSE file for details
+
+## Support
+
+For issues, questions, or contributions:
+1. Open an issue on GitHub
+2. Check existing documentation
+3. Review troubleshooting section
+
+## Roadmap
+
+- [ ] Web UI dashboard
+- [ ] Additional specialized agents
+- [ ] Integration with more LLM providers
+- [ ] Advanced memory and context management
+- [ ] Multi-language support
+- [ ] Real-time agent communication
+- [ ] Advanced monitoring and observability

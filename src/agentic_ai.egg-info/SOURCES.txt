@@ -1,0 +1,14 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+src/agentic_ai/__init__.py
+src/agentic_ai/app.py
+src/agentic_ai/config.py
+src/agentic_ai/kernel_factory.py
+src/agentic_ai/lambda_handler.py
+src/agentic_ai.egg-info/PKG-INFO
+src/agentic_ai.egg-info/SOURCES.txt
+src/agentic_ai.egg-info/dependency_links.txt
+src/agentic_ai.egg-info/requires.txt
+src/agentic_ai.egg-info/top_level.txt
