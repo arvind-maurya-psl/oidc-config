@@ -6,7 +6,7 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: agentic-ai
+  ECR_REPOSITORY: viru/agentic-ai
   ECS_CLUSTER: my-ecs-cluster
   ECS_SERVICE: my-ecs-service
   ECS_TASK_DEFINITION: infrastructure/task-definition.json
