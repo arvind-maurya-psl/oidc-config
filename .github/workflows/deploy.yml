@@ -59,7 +59,7 @@ jobs:
               --platform linux/arm64 \
               --load \
               -t $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${{ github.sha }} \
-              -t $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:latest \              
+              -t $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:latest \
               .
       
       - name: Push Docker Image
