@@ -57,9 +57,9 @@ jobs:
         run: |
           docker buildx build \
               --platform linux/arm64 \
-              --tag $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${{ github.sha }} \
-              --tag $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:latest \
               --load \
+              -t $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${{ github.sha }} \
+              -t $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:latest \              
               .
       
       - name: Push Docker Image
