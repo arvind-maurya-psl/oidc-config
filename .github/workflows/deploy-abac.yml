@@ -2,7 +2,7 @@ name: Test AWS OIDC config
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
 
 env:
   AWS_REGION: us-east-1
@@ -10,6 +10,7 @@ env:
   ECS_CLUSTER: default
   ECS_SERVICE: agentic-ai-4e7d
   ECS_TASK_DEFINITION: infrastructure/task-definition.json
+  BAC_RUN_ID: hosted_agent_c9xgo-X66f3hFMcl
 
 jobs:
   deploy:
@@ -75,18 +76,9 @@ jobs:
           docker push $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
           docker push $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:latest
 
-      - name: Render ECS Task Definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION }}
-          container-name: Main
-          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
-          
-      - name: Deploy ECS Task Definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
+      - name: Update Agent Runtime
+        run: |
+          aws bedrock-agentcore update-runtime \
+          --runtime-id ${{ env.BAC_RUN_ID }} \
+          --container-image \
+          "$ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${{ github.sha }}"
