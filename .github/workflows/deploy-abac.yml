@@ -11,6 +11,7 @@ env:
   ECS_SERVICE: agentic-ai-4e7d
   ECS_TASK_DEFINITION: infrastructure/task-definition.json
   BAC_RUN_ID: hosted_agent_c9xgo-X66f3hFMcl
+  BAC_NETWORK_CONFIG: '{"networkMode":"PUBLIC"}'
 
 jobs:
   deploy:
@@ -83,12 +84,9 @@ jobs:
           set -euo pipefail
 
           IMAGE_URI="$ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${{ github.sha }}"
-          CURRENT_RUNTIME_JSON="$(aws bedrock-agentcore-control get-agent-runtime --agent-runtime-id "${{ env.BAC_RUN_ID }}" --output json)"
-          ROLE_ARN="$(echo "$CURRENT_RUNTIME_JSON" | jq -r '.roleArn')"
-          NETWORK_CONFIGURATION="$(echo "$CURRENT_RUNTIME_JSON" | jq -c '.networkConfiguration')"
 
           aws bedrock-agentcore-control update-agent-runtime \
             --agent-runtime-id "${{ env.BAC_RUN_ID }}" \
             --agent-runtime-artifact "{\"containerConfiguration\":{\"containerUri\":\"${IMAGE_URI}\"}}" \
-            --role-arn "$ROLE_ARN" \
-            --network-configuration "$NETWORK_CONFIGURATION"
+            --role-arn "${{ secrets.BAC_ROLE_ARN }}" \
+            --network-configuration "${{ env.BAC_NETWORK_CONFIG }}"
