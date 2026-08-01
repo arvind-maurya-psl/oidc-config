@@ -92,6 +92,15 @@ POLICY_DOCUMENT=$(cat <<'EOF'
             "Resource": "arn:aws:bedrock:*::foundation-model/*"
         },
         {
+            "Sid": "BedrockAgentCoreRuntimeUpdate",
+            "Effect": "Allow",
+            "Action": [
+                "bedrock-agentcore:UpdateAgentRuntime",
+                "bedrock-agentcore:GetAgentRuntime"
+            ],
+            "Resource": "arn:aws:bedrock-agentcore:*:*:runtime/*"
+        },
+        {
             "Sid": "S3Access",
             "Effect": "Allow",
             "Action": [

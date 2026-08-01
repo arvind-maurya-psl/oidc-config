@@ -19,6 +19,15 @@ for accessing AWS Bedrock and related services.
             "Resource": "arn:aws:bedrock:*::foundation-model/*"
         },
         {
+            "Sid": "BedrockAgentCoreRuntimeUpdate",
+            "Effect": "Allow",
+            "Action": [
+                "bedrock-agentcore:UpdateAgentRuntime",
+                "bedrock-agentcore:GetAgentRuntime"
+            ],
+            "Resource": "arn:aws:bedrock-agentcore:*:*:runtime/*"
+        },
+        {
             "Sid": "SecretsManagerAccess",
             "Effect": "Allow",
             "Action": [
