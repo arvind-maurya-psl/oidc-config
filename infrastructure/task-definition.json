@@ -1,9 +1,9 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:325574368753:task-definition/default-agentic-ai-4e7d:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:325574368753:task-definition/default-agentic-ai-44e0:1",
     "containerDefinitions": [
         {
             "name": "Main",
-            "image": "325574368753.dkr.ecr.us-east-1.amazonaws.com/viru/agentic-ai@sha256:38fbf7f81a6d611767556236c65f062c7f1442fa33adb11b41e9f683be854cab",
+            "image": "325574368753.dkr.ecr.us-east-1.amazonaws.com/viru/agentic-ai@sha256:6e732236dd142e1beda8070436cd2f141f5e4061b84afaa7243a6e90f2ff43a1",
             "cpu": 1024,
             "memoryReservation": 2048,
             "portMappings": [
@@ -22,14 +22,14 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/aws/ecs/default/agentic-ai-4e7d-4280",
+                    "awslogs-group": "/aws/ecs/default/agentic-ai-44e0-f7cb",
                     "awslogs-region": "us-east-1",
                     "awslogs-stream-prefix": "ecs"
                 }
             }
         }
     ],
-    "family": "default-agentic-ai-4e7d",
+    "family": "default-agentic-ai-44e0",
     "executionRoleArn": "arn:aws:iam::325574368753:role/service-role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "revision": 1,
@@ -64,8 +64,8 @@
     "placementConstraints": [],
     "compatibilities": [
         "EC2",
-        "MANAGED_INSTANCES",
-        "FARGATE"
+        "FARGATE",
+        "MANAGED_INSTANCES"
     ],
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
@@ -76,7 +76,7 @@
     ],
     "cpu": "1024",
     "memory": "2048",
-    "registeredAt": "2026-07-28T09:10:33.535Z",
+    "registeredAt": "2026-08-03T04:12:05.535Z",
     "enableFaultInjection": false,
     "tags": []
 }

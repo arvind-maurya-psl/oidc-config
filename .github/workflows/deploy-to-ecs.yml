@@ -1,4 +1,4 @@
-name: Test AWS OIDC config
+name: Deploy to ECS
 
 on:
   push:
@@ -8,7 +8,7 @@ env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: viru/agentic-ai
   ECS_CLUSTER: default
-  ECS_SERVICE: agentic-ai-4e7d
+  ECS_SERVICE: agentic-ai-44e0
   ECS_TASK_DEFINITION: infrastructure/task-definition.json
 
 jobs:
