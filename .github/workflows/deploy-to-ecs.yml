@@ -2,7 +2,7 @@ name: Test AWS OIDC config
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
 
 env:
   AWS_REGION: us-east-1
