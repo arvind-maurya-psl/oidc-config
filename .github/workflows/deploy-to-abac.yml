@@ -90,3 +90,4 @@ jobs:
             --agent-runtime-artifact "{\"containerConfiguration\":{\"containerUri\":\"${IMAGE_URI}\"}}" \
             --role-arn "${{ secrets.BAC_ROLE_ARN }}" \
             --network-configuration "$BAC_NETWORK_CONFIG"
+            
