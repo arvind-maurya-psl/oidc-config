@@ -33,7 +33,7 @@ jobs:
             echo "Branch=${{ github.ref_name }}"
             echo "Event=${{ github.event_name }}"
             echo "Actor=${{ github.actor }}"
-            
+
       - name: Debug OIDC sub claim
         run: |
           TOKEN=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
@@ -97,4 +97,3 @@ jobs:
             --agent-runtime-artifact "{\"containerConfiguration\":{\"containerUri\":\"${IMAGE_URI}\"}}" \
             --role-arn "${{ secrets.BAC_ROLE_ARN }}" \
             --network-configuration "$BAC_NETWORK_CONFIG"
-            
